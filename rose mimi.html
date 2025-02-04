@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rose pour Mimi</title>
+    <meta http-equiv="refresh" content="0;URL=https://ton-github.github.io/rose3d/">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffe6e6;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Création de la scène, de la caméra et du rendu
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Ajout d'un éclairage réaliste
+        const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444, 1);
+        hemiLight.position.set(0, 10, 0);
+        scene.add(hemiLight);
+
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+        dirLight.position.set(5, 10, 7);
+        dirLight.castShadow = true;
+        scene.add(dirLight);
+
+        renderer.shadowMap.enabled = true;
+
+        // Charger le modèle 3D de la rose
+        const loader = new THREE.GLTFLoader();
+        loader.load(
+            'rose_mimi.glb', 
+            function (gltf) {
+                const model = gltf.scene;
+                model.position.set(0, 1.5, 0); // Ajuster la position
+                model.scale.set(2, 2, 2); // Ajuster la taille
+                scene.add(model);
+
+                // Animation d'éclosion
+                gsap.from(model.scale, { x: 0, y: 0, z: 0, duration: 2, ease: "power2.out" });
+            },
+            function (xhr) {
+                console.log((xhr.loaded / xhr.total * 100) + '% chargé');
+            },
+            function (error) {
+                console.error('Erreur lors du chargement du modèle', error);
+            }
+        );
+
+        // Position de la caméra
+        camera.position.set(0, 1, 4);
+
+        // Animation continue
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
