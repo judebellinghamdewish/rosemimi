@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rose pour Mimi</title>
-    <meta http-equiv="refresh" content="0;URL=https://ton-github.github.io/rose3d/">
+    <meta http-equiv="refresh" content="https://judebellinghamdewish.github.io/rosemimi/">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
@@ -41,10 +41,11 @@
 
         renderer.shadowMap.enabled = true;
 
-        // Charger le modèle 3D de la rose
+        // Charger le modèle 3D de la rose depuis Google Drive
+        const glbUrl = "https://drive.google.com/uc?export=download&id=18fdjwBfM6q3WWgC9IWkr2rjPZCLZYr9_";
         const loader = new THREE.GLTFLoader();
         loader.load(
-            'rose_mimi.glb', 
+            glbUrl, 
             function (gltf) {
                 const model = gltf.scene;
                 model.position.set(0, 1.5, 0); // Ajuster la position
